@@ -3,4 +3,6 @@ project(beecrownd)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(beecrownd main.cpp)
+add_executable(beecrownd main.cpp
+        rangeleojogodovetor1.cpp
+        preenchimentodevetor3.cpp)
