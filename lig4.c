@@ -1,56 +1,17 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <stdlib.h>
 
-#define ROWS 6
-#define COLS 7
-#define EMPTY ' '
-#define PLAYER1 'X'
-#define PLAYER2 'O'
 
-char **board;
+int ROWS = 6;
+int COLS = 7;
+char EMPTY = ' ';
+char PLAYER1 = 'X';
+char PLAYER2 = 'O';
 
-typedef struct MemList {
-    void *ptr;
-    struct MemList *next;
-} MemList;
-
-MemList *head = NULL;
-
-void* custom_malloc(size_t size) {
-    void *ptr = malloc(size);
-    if (!ptr) {
-        perror("Failed to allocate memory.");
-        exit(EXIT_FAILURE);
-    }
-
-    MemList *newEntry = malloc(sizeof(MemList));
-    if (!newEntry) {
-        perror("Failed to allocate memory for memlist.");
-        free(ptr);
-        exit(EXIT_FAILURE);
-    }
-
-    newEntry->ptr = ptr;
-    newEntry->next = head;
-    head = newEntry;
-
-    return ptr;
-}
-
-void custom_free_all() {
-    while (head) {
-        free(head->ptr);
-        MemList *temp = head;
-        head = head->next;
-        free(temp);
-    }
-}
+char board[6][7];
 
 void init_board() {
-    board = custom_malloc(ROWS * sizeof(char *));
     for (int i = 0; i < ROWS; i++) {
-        board[i] = custom_malloc(COLS * sizeof(char));
         for (int j = 0; j < COLS; j++) {
             board[i][j] = EMPTY;
         }
@@ -69,7 +30,6 @@ void print_board() {
 }
 
 bool check_win(char player) {
-    // Horizontal, vertical, and diagonal checks
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
             if (j < COLS - 3 && board[i][j] == player && board[i][j + 1] == player && board[i][j + 2] == player && board[i][j + 3] == player) {
@@ -141,8 +101,6 @@ int main() {
 
         currentPlayer = (currentPlayer == PLAYER1) ? PLAYER2 : PLAYER1;
     }
-
-    custom_free_all();
 
     return 0;
 }
