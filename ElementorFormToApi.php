@@ -1,3 +1,5 @@
+<?php
+
 // Budget Form
 
 //Step 1
@@ -94,3 +96,5 @@ function Budget_StepTwo( $record, $handler ) {
     }
 }
 add_action( 'elementor_pro/forms/new_record', 'Budget_StepTwo', 10, 2 );
+
+?>
