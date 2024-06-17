@@ -103,6 +103,20 @@ void lerArquivo(Produto** head, const char* nomeArquivo) {
     fclose(file);
 }
 
+void salvarArquivo(Produto* head, const char* nomeArquivo) {
+    FILE* file = fopen(nomeArquivo, "w");
+    if (!file) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
+    Produto* temp = head;
+    while (temp != NULL) {
+        fprintf(file, "%s %.2f %s\n", temp->nome, temp->preco, temp->tamanho);
+        temp = temp->next;
+    }
+    fclose(file);
+}
+
 void menu(Produto** head) {
     int opcao;
     char nome[100];
@@ -131,6 +145,7 @@ void menu(Produto** head) {
                 scanf("%s", tamanho);
                 produto = criarProduto(nome, preco, tamanho);
                 inserirProduto(head, produto);
+                salvarArquivo(*head, "produtos.txt");
                 break;
             case 2:
                 exibirProdutos(*head, 1);
@@ -152,6 +167,7 @@ void menu(Produto** head) {
                 printf("Nome: ");
                 scanf("%s", nome);
                 removerProduto(head, nome);
+                salvarArquivo(*head, "produtos.txt");
                 break;
             case 6:
                 printf("Saindo...\n");
@@ -166,23 +182,6 @@ int main() {
     Produto* head = NULL;
     lerArquivo(&head, "produtos.txt");
     menu(&head);
+    salvarArquivo(head, "produtos.txt");
     return 0;
 }
-
-
-/*
-
-arquivo.txt
-
-Camiseta 49.90 M
-Calca 99.90 G
-Sapato 149.90 42
-Vestido 129.90 P
-Blusa 59.90 M
-Short 69.90 G
-Tenis 199.90 41
-Saia 89.90 M
-Jaqueta 199.90 G
-Moletom 149.90 GG
-
-*/
