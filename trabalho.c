@@ -84,7 +84,13 @@ void removerProduto(Produto** head, char* nome) {
 void lerArquivo(Produto** head, const char* nomeArquivo) {
     FILE* file = fopen(nomeArquivo, "r");
     if (!file) {
-        printf("Erro ao abrir o arquivo.\n");
+        printf("Arquivo nao encontrado. Criando um novo arquivo...\n");
+        file = fopen(nomeArquivo, "w");
+        if (!file) {
+            printf("Erro ao criar o arquivo.\n");
+            return;
+        }
+        fclose(file);
         return;
     }
     char nome[100];
@@ -158,10 +164,11 @@ void menu(Produto** head) {
 
 int main() {
     Produto* head = NULL;
-    lerArquivo(&head, "arquivo.txt");
+    lerArquivo(&head, "produtos.txt");
     menu(&head);
     return 0;
 }
+
 
 /*
 

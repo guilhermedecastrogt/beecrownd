@@ -22,4 +22,4 @@ class Program
         // Display the result in total hours
         Console.WriteLine($"You slept for {sleepDuration.TotalHours} hours.");
     }
-}
+}Q
